@@ -11,7 +11,7 @@ import themes from 'themes';
 const App = () => {
 
   return (
-    <ThemeProvider theme={themes}>
+    <ThemeProvider theme={themes()}>
       <Routes />
     </ThemeProvider>
   );

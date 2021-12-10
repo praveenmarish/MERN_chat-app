@@ -5,10 +5,10 @@ const theme = () => {
   const themes = createTheme({
     palette: {
       primary: {
-        main: purple[500],
+        main: purple[800],
       },
       secondary: {
-        main: green[500],
+        main: purple[200],
       },
     },
   });
