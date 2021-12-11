@@ -12,7 +12,7 @@ const AuthenticationRoutes = {
   element: <MinimalLayout />,
   children: [
     {
-      path: 'login',
+      path: '',
       element: <Login />,
     },
     {

@@ -1,15 +1,15 @@
 // material-ui
-import { Grid } from '@mui/material';
+import LoginForm from 'views/components/LoginForm';
+import { FormLayout } from 'views/layout/FormLayout';
 
 // ================================|| LOGIN ||================================ //
 
 const Login = () => {
 
     return (
-
-        <Grid container direction="column" justifyContent="flex-end" sx={{ minHeight: '100vh' }}>
-            login
-        </Grid>
+        <FormLayout value="Login">
+            <LoginForm />
+        </FormLayout>
     );
 };
 

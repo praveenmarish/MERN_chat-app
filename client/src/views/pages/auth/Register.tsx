@@ -1,15 +1,14 @@
 // material-ui
-import { Grid } from '@mui/material';
+import RegisterationForm from 'views/components/RegisterationForm';
+import { FormLayout } from 'views/layout/FormLayout';
 
 // ================================|| REGISTER ||================================ //
 
 const Register = () => {
-
     return (
-
-        <Grid container direction="column" justifyContent="flex-end" sx={{ minHeight: '100vh' }}>
-            register
-        </Grid>
+        <FormLayout value="Register">
+            <RegisterationForm />
+        </FormLayout>
     );
 };
 

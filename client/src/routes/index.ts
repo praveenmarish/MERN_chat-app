@@ -7,5 +7,5 @@ import AuthenticationRoutes from './AuthenticationRoutes';
 // ==============================|| ROUTING RENDER ||============================== //
 
 export default function ThemeRoutes() {
-  return useRoutes([ChatRoutes, AuthenticationRoutes]);
+  return useRoutes([AuthenticationRoutes, ChatRoutes]);
 }

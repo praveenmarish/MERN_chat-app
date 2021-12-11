@@ -1,5 +1,5 @@
 import { createTheme } from '@mui/material/styles';
-import { green, purple } from '@mui/material/colors';
+import { purple } from '@mui/material/colors';
 
 const theme = () => {
   const themes = createTheme({
