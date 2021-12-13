@@ -1,6 +1,9 @@
 // material-ui
 import { Container, Grid, Typography } from '@mui/material';
 
+// constants
+import Constants from 'constants/Images'
+
 // ================================|| LOGIN ||================================ //
 
 export const FormLayout = ({ children, value }: Form.Props) => {
@@ -13,15 +16,15 @@ export const FormLayout = ({ children, value }: Form.Props) => {
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sx={{ height: "80%" }}>
-                    <Container sx={{ backgroundColor: (theme) => theme.palette.secondary.main, height: "100%", width: "100%", borderRadius: "10px", border: "1px solid #000", display: "flex", justifyContent: "center", alignContent: "center", flexDirection: "column" }}>
-                        <Container sx={{
-                            backgroundColor: "white", height: "90%", width: "100%", borderRadius: "10px", overflow: "auto", padding: "10px !important", "&::-webkit-scrollbar": {
-                                display: "none",
-                            },
-                        }}>
-                            {children}
-                        </Container>
+                    {/* <Container sx={{ backgroundColor: (theme) => theme.palette.secondary.main, height: "100%", width: "100%", borderRadius: "10px", border: "1px solid #000", display: "flex", justifyContent: "center", alignContent: "center", flexDirection: "column" }}> */}
+                    <Container sx={{
+                        backgroundImage: `url(${Constants["SecoundBackground_img"]})`, height: "90%", width: "100%", backgroundSize: "cover", borderRadius: "10px", padding: "10px !important", "&::-webkit-scrollbar": {
+                            display: "none",
+                        },
+                    }}>
+                        {children}
                     </Container>
+                    {/* </Container> */}
                 </Grid>
             </Grid>
         </Container>
