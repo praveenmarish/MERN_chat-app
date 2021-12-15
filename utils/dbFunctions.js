@@ -46,3 +46,11 @@ module.exports.MessageList = async (ConversationId, pageNo) => {
     .skip((pageNo - 1) * 10)
     .limit(10);
 };
+
+module.exports.userGetter = async (username) => {
+  return await User.findOne({ username }).select('+password');
+};
+
+module.exports.idGetter = async (id) => {
+  return await User.findById(id);
+};

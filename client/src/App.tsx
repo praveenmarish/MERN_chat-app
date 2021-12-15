@@ -1,4 +1,6 @@
 import { ThemeProvider } from '@mui/material/styles';
+import { Provider } from 'api/provider';
+import { BrowserRouter } from 'react-router-dom';
 
 // routing
 import Routes from 'routes';
@@ -11,9 +13,13 @@ import themes from 'themes';
 const App = () => {
 
   return (
-    <ThemeProvider theme={themes()}>
-      <Routes />
-    </ThemeProvider>
+    <Provider>
+      <ThemeProvider theme={themes()}>
+        <BrowserRouter>
+          <Routes />
+        </BrowserRouter>
+      </ThemeProvider>
+    </Provider>
   );
 };
 

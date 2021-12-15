@@ -6,6 +6,7 @@ const theme = () => {
     palette: {
       primary: {
         main: purple[800],
+        dark: purple['A100'],
       },
       secondary: {
         main: purple[200],

@@ -2,8 +2,20 @@
 import { Container } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { FormField, MuiButton } from './FormComponents';
+import * as Yup from "yup";
 
 // ================================|| USERS ||================================ //
+
+const LoginValidation = Yup.object().shape({
+    username: Yup.string().required("No user name"),
+    password: Yup.string()
+        .required("No password provided.")
+        .min(8, "Password is too short - should be 8 chars minimum.")
+        .matches(
+            /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+            "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+        ),
+})
 
 const LoginForm = () => {
 

@@ -5,9 +5,10 @@ const {
   messageList,
   addMessage,
 } = require('../controllers/message');
+const { protect } = require('../middleware/auth');
 
-messageRoute.route('/conversation').post(conversation);
-messageRoute.route('/messages').get(messageList);
-messageRoute.route('/addmessage').post(addMessage);
+messageRoute.route('/conversation').post(protect, conversation);
+messageRoute.route('/messages').get(protect, messageList);
+messageRoute.route('/addmessage').post(protect, addMessage);
 
 module.exports = messageRoute;
