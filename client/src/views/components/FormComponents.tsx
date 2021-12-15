@@ -1,20 +1,24 @@
-import { Button, ButtonProps, IconButton, TextField, TextFieldProps, Typography, TypographyProps } from "@mui/material"
+import { Button, ButtonProps, IconButton, TextField, Typography, TypographyProps, TextFieldProps as MuiTextFieldProps } from "@mui/material"
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useState } from "react";
+import { Field as FormicField } from "formik";
+import { TextFieldProps, fieldToTextField } from 'formik-mui'
 
-export const FormField = ({ name, type }: Field.Props) => {
+export const FormField = ({ ...props }: Partial<MuiTextFieldProps>) => {
     return (<>
-        <MuiLable value={name} sx={{ marginBottom: "10px" }} />
-        {type === "password" ?
-            <MuiPasswordField value={type} sx={{ marginBottom: "15px" }} /> : <MuiTextField sx={{ marginBottom: "15px" }} />}
+        <MuiLable value={props.name as string} sx={{ marginBottom: "10px" }} />
+        <FormicField
+            component={props.type === "password" ? MuiPasswordField : MuiTextField}
+            {...props}
+        />
     </>
     )
 }
 export const MuiTextField = ({ ...props }: TextFieldProps) => (
     <TextField
-        {...props}
         variant="outlined"
         fullWidth
+        {...fieldToTextField(props)}
     />
 );
 
@@ -24,20 +28,20 @@ export const MuiLable = ({ value, ...props }: Field.Value & TypographyProps) => 
     </Typography>
 );
 
-export const MuiPasswordField = ({ value, sx, ...props }: Field.Value & TextFieldProps) => {
+export const MuiPasswordField = ({ ...props }: TextFieldProps) => {
     const [visible, setVisible] = useState(false);
     return (
         <TextField
-            {...props}
+            {...fieldToTextField(props)}
             sx={{
-                ...sx,
+
                 "& input::-ms-reveal, & input::-ms-clear": {
                     display: "none"
                 }
             }}
             variant="outlined"
             fullWidth
-            type={visible ? "text" : value}
+            type={visible ? "text" : "password"}
             InputProps={{
                 endAdornment: (
                     <IconButton onClick={() => setVisible(!visible)}>
@@ -66,7 +70,7 @@ export declare namespace Field {
         value: string
     }
     export interface Props {
-        name: string;
-        type: string
+        name?: string;
+        type?: string
     }
 }

@@ -5,6 +5,7 @@ const {
   idGetter,
 } = require('../utils/dbFunctions');
 const { TokenVerification } = require('../utils/tokenVerification');
+
 exports.addUser = async (req, res, next) => {
   const { username, password } = req.body;
   try {
@@ -30,7 +31,12 @@ exports.login = async (req, res, next) => {
   try {
     const user = await userGetter(username);
 
+    if (!user) {
+      return next(new ErrorResponse('Invalid credentials', 401));
+    }
+
     const isMatch = await user.matchPassword(password);
+
     if (!isMatch) {
       return next(new ErrorResponse('Invalid credentials', 401));
     }

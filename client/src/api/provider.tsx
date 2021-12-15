@@ -5,7 +5,7 @@ const queryClient = new QueryClient({
     defaultOptions: { queries: { refetchOnWindowFocus: false } },
 });
 
-export const Provider = ({ children }: Provider.Props) => {
+export const Provider = ({ children }: Providers.Props) => {
     return (
         <QueryClientProvider client={queryClient}>
             {children}
@@ -13,7 +13,7 @@ export const Provider = ({ children }: Provider.Props) => {
     );
 };
 
-export declare namespace Provider {
+export declare namespace Providers {
     export interface Props {
         children: React.ReactNode;
     }

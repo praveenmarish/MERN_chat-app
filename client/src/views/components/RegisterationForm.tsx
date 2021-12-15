@@ -1,6 +1,6 @@
 // material-ui
 import { Container } from '@mui/material';
-import { Form, Formik } from 'formik';
+import { Form, Formik, FormikHelpers } from 'formik';
 import { FormField, MuiButton, MuiLable } from './FormComponents';
 import * as Yup from "yup";
 
@@ -22,38 +22,28 @@ const RegisterValidation = Yup.object().shape({
 
 const RegisterationForm = () => {
 
+    const onSubmit = (
+        values: main.Form,
+        formikHelpers: FormikHelpers<main.Form>
+    ) => {
+        console.log(values)
+        console.log(formikHelpers)
+    }
+
     return (
-        <Container maxWidth="sm" sx={{ backgroundColor: "white", height: "100%", borderRadius: "10px", position: "relative" }}>
+        <Container maxWidth="sm" sx={{ overflow: "auto", backgroundColor: "white", height: "100%", borderRadius: "10px", position: "relative" }}>
             <Formik
-                initialValues={{ username: '', password: '' }}
-                validate={values => {
-                    var errors = { username: "" };
-                    if (!values.username) {
-                        errors.username = 'Required';
-                    }
-                    return errors;
-                }}
-                onSubmit={(values, { setSubmitting }) => {
-                    setTimeout(() => {
-                        alert(JSON.stringify(values, null, 2));
-                        setSubmitting(false);
-                    }, 400);
-                }}
+                initialValues={{ username: '', password: '', confirmPassword: '' }}
+                validationSchema={RegisterValidation}
+                onSubmit={onSubmit}
             >
                 {({
-                    values,
-                    errors,
-                    touched,
-                    handleChange,
-                    handleBlur,
                     handleSubmit,
-                    isSubmitting,
-                    /* and other goodies */
                 }) => (
-                    <Container component={Form} onSubmit={handleSubmit} sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", display: "flex", flexDirection: "column" }} >
-                        <FormField name="User Name" type="text" />
-                        <FormField name="Password" type="password" />
-                        <FormField name="Confirm Password" type="password" />
+                    <Container component={Form} onSubmit={handleSubmit} sx={{ height: "100%", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", display: "flex", flexDirection: "column" }} >
+                        <FormField name="username" type="text" />
+                        <FormField name="password" type="password" />
+                        <FormField name="confirmPassword" type="password" />
                         <MuiButton sx={{ alignSelf: "center" }} />
                         <MuiLable value="Error" sx={{ color: (theme) => theme.palette.primary.dark }} />
                     </Container>
@@ -64,3 +54,11 @@ const RegisterationForm = () => {
 };
 
 export default RegisterationForm;
+
+export declare namespace main {
+    export interface Form {
+        username: string;
+        password: string;
+        confirmPassword: string
+    }
+}

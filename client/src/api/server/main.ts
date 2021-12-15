@@ -16,10 +16,11 @@ export const Request = (options: string, data?: any) =>
     data,
   }).then((res) => res.data);
 
-export const useRequest = (
+export const UseRequest = (
   queryOptions: string[],
   options: string,
   data?: any
 ) => {
+  console.log('use request');
   return useQuery(queryOptions, () => Request(options, data));
 };

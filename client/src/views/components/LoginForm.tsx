@@ -2,7 +2,10 @@
 import { Container } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { FormField, MuiButton } from './FormComponents';
-import * as Yup from "yup";
+import * as Yup from 'yup'
+import { Request, UseRequest } from 'api/server/main';
+import { useState } from 'react';
+import { useMutation } from 'react-query';
 
 // ================================|| USERS ||================================ //
 
@@ -18,38 +21,35 @@ const LoginValidation = Yup.object().shape({
 })
 
 const LoginForm = () => {
+    const [value, setvalue] = useState({})
+
+    const { data, error, mutate: login } = useMutation(async () => { await Request("userLogin", value) });
+
+
+    const onSubmit = (
+        values: main.Form,
+    ) => {
+        console.log(values)
+        setvalue(values)
+        login()
+        // Request("userLogin", values).then((data) => {
+        //     console.log(data)
+        // })
+    }
 
     return (
         <Container maxWidth="sm" sx={{ backgroundColor: "white", height: "100%", borderRadius: "10px", position: "relative" }}>
             <Formik
                 initialValues={{ username: '', password: '' }}
-                validate={values => {
-                    var errors = { username: "" };
-                    if (!values.username) {
-                        errors.username = 'Required';
-                    }
-                    return errors;
-                }}
-                onSubmit={(values, { setSubmitting }) => {
-                    setTimeout(() => {
-                        alert(JSON.stringify(values, null, 2));
-                        setSubmitting(false);
-                    }, 400);
-                }}
+                validationSchema={LoginValidation}
+                onSubmit={onSubmit}
             >
                 {({
-                    values,
-                    errors,
-                    touched,
-                    handleChange,
-                    handleBlur,
                     handleSubmit,
-                    isSubmitting,
-                    /* and other goodies */
                 }) => (
                     <Container component={Form} onSubmit={handleSubmit} sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", display: "flex", flexDirection: "column" }} >
-                        <FormField name="User Name" type="text" />
-                        <FormField name="Password" type="password" />
+                        <FormField name="username" type="text" />
+                        <FormField name="password" type="password" />
                         <MuiButton sx={{ alignSelf: "center" }} />
                     </Container>
                 )}
@@ -59,3 +59,11 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
+
+
+export declare namespace main {
+    export interface Form {
+        username: string;
+        password: string;
+    }
+}
