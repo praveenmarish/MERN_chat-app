@@ -11,10 +11,11 @@ export const Request = (options: string, data?: any) =>
   client({
     ...Routes[options],
     headers: {
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
     data,
-  }).then((res) => res.data);
+  });
 
 export const UseRequest = (
   queryOptions: string[],

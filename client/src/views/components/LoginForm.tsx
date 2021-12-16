@@ -1,11 +1,13 @@
 // material-ui
 import { Container } from '@mui/material';
 import { Form, Formik } from 'formik';
-import { FormField, MuiButton } from './FormComponents';
+import { FormField, MuiButton, MuiLable } from './FormComponents';
 import * as Yup from 'yup'
-import { Request, UseRequest } from 'api/server/main';
-import { useState } from 'react';
+import { Request } from 'api/server/main';
+import { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
+import axios from "axios";
+import { Router, useNavigate } from 'react-router-dom';
 
 // ================================|| USERS ||================================ //
 
@@ -21,20 +23,26 @@ const LoginValidation = Yup.object().shape({
 })
 
 const LoginForm = () => {
-    const [value, setvalue] = useState({})
+    const [error, seterror] = useState('')
 
-    const { data, error, mutate: login } = useMutation(async () => { await Request("userLogin", value) });
+    const navigate = useNavigate()
 
+    const { mutate: login } = useMutation(async (values: main.Form) => {
+        const res = await Request("userLogin", values)
+        return res
+    },
+        {
+            onSuccess: async (data) => { console.log(data) },
+            onError: (err) => {
+                seterror((err as any).response.data.error)
+            },
+        }
+    );
 
     const onSubmit = (
         values: main.Form,
     ) => {
-        console.log(values)
-        setvalue(values)
-        login()
-        // Request("userLogin", values).then((data) => {
-        //     console.log(data)
-        // })
+        login(values)
     }
 
     return (
@@ -51,6 +59,7 @@ const LoginForm = () => {
                         <FormField name="username" type="text" />
                         <FormField name="password" type="password" />
                         <MuiButton sx={{ alignSelf: "center" }} />
+                        <MuiLable value={error} sx={{ color: (theme) => theme.palette.primary.dark }} />
                     </Container>
                 )}
             </Formik>

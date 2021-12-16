@@ -4,6 +4,7 @@ const {
   userGetter,
   idGetter,
 } = require('../utils/dbFunctions');
+const ErrorResponse = require('../utils/errorResponse');
 const { TokenVerification } = require('../utils/tokenVerification');
 
 exports.addUser = async (req, res, next) => {
