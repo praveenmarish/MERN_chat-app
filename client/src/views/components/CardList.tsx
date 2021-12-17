@@ -6,6 +6,9 @@ import { Container, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
+import { Request } from 'api/server/main';
+import { Dispatch, SetStateAction } from 'react';
+import { useQuery } from 'react-query';
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -14,14 +17,12 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.primary,
 }));
 
-const CardList = () => {
+const CardList = ({ receiver }: main.Props) => {
 
-    const users = [{ "username": "marish" }, { "username": "praveen" },
-    { "username": "praveenmarish" }, { "username": "marish" },
-    { "username": "praveen" },
-    { "username": "praveenmarish" }, { "username": "marish" },
-    { "username": "praveen" },
-    { "username": "praveenmarish" }]
+    const { data, isLoading } = useQuery("users", async () => {
+        const data = await Request("userList", {});
+        return data.data.users
+    })
 
     return (
         <Container sx={{ backgroundColor: (theme) => theme.palette.secondary.main, height: "100%", width: "100%", borderRadius: "10px", border: "1px solid #000", display: "flex", justifyContent: "center", alignContent: "center", flexDirection: "column" }}>
@@ -34,9 +35,10 @@ const CardList = () => {
                 },
             }}>
                 <Stack spacing={2}>
-                    {users.map((val, index) => (
-                        <Item key={index}>{val.username}</Item>
-                    ))}
+                    {isLoading ? <></> : (data?.map(({ username, _id }: main.users) => (
+                        <Item key={_id} onClick={() => receiver(_id)} >{username}</Item>
+                    )))}
+
                 </Stack>
             </Container>
         </Container >
@@ -44,3 +46,13 @@ const CardList = () => {
 };
 
 export default CardList;
+
+export declare namespace main {
+    export interface Props {
+        receiver: Dispatch<SetStateAction<string>>
+    }
+    export interface users {
+        username: string;
+        _id: string
+    }
+}

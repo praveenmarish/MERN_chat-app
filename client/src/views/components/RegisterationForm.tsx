@@ -1,8 +1,13 @@
 // material-ui
-import { Container } from '@mui/material';
-import { Form, Formik, FormikHelpers } from 'formik';
+import { Container, Typography } from '@mui/material';
+import { Form, Formik } from 'formik';
 import { FormField, MuiButton, MuiLable } from './FormComponents';
 import * as Yup from "yup";
+import { Request } from 'api/server/main';
+import { useState } from 'react';
+import { useMutation } from 'react-query';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 // ================================|| USERS ||================================ //
 
@@ -21,13 +26,30 @@ const RegisterValidation = Yup.object().shape({
 })
 
 const RegisterationForm = () => {
+    const [error, seterror] = useState('')
+
+    const navigate = useNavigate()
+
+    const { mutate: register } = useMutation(async (values: main.Form) => {
+        const res = await Request("newUser", values)
+        return res
+    },
+        {
+            onSuccess: async (data) => {
+                localStorage.setItem("accessToken", data.data.accessToken);
+                localStorage.setItem("refreshToken", data.data.refreshToken);
+                navigate('../chat')
+            },
+            onError: (err) => {
+                seterror((err as any).response.data.error)
+            },
+        }
+    );
 
     const onSubmit = (
         values: main.Form,
-        formikHelpers: FormikHelpers<main.Form>
     ) => {
-        console.log(values)
-        console.log(formikHelpers)
+        register(values)
     }
 
     return (
@@ -40,12 +62,14 @@ const RegisterationForm = () => {
                 {({
                     handleSubmit,
                 }) => (
-                    <Container component={Form} onSubmit={handleSubmit} sx={{ height: "100%", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", display: "flex", flexDirection: "column" }} >
+                    <Container component={Form} onSubmit={handleSubmit} sx={{ textAlign: "center", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)" }} >
                         <FormField name="username" type="text" />
                         <FormField name="password" type="password" />
                         <FormField name="confirmPassword" type="password" />
                         <MuiButton sx={{ alignSelf: "center" }} />
-                        <MuiLable value="Error" sx={{ color: (theme) => theme.palette.primary.dark }} />
+                        <MuiLable value={error} sx={{ color: (theme) => theme.palette.primary.dark }} />
+                        <Typography to="/" component={Link}
+                            sx={{ marginTop: "10px", textDecoration: "none" }}>Back to login</Typography>
                     </Container>
                 )}
             </Formik>

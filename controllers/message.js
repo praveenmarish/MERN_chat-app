@@ -7,12 +7,18 @@ const {
 
 exports.conversation = async (req, res, next) => {
   const { id } = req.body;
+  const { _id } = req.user;
+
   try {
-    let { ConversationId, pageCount } = await conversationId(id);
+    let { ConversationId, pageCount } = await conversationId(
+      id.concat(_id.toHexString())
+    );
+    let messages = await MessageList(ConversationId, 1);
     res.status(200).json({
       success: true,
       message: 'conversation',
       ConversationId,
+      messages,
       pageCount,
     });
   } catch (err) {

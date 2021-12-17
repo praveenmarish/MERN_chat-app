@@ -16,6 +16,7 @@ export const FormField = ({ ...props }: Partial<MuiTextFieldProps>) => {
 }
 export const MuiTextField = ({ ...props }: TextFieldProps) => (
     <TextField
+        sx={{ marginBottom: "15px" }}
         variant="outlined"
         fullWidth
         {...fieldToTextField(props)}
@@ -23,7 +24,7 @@ export const MuiTextField = ({ ...props }: TextFieldProps) => (
 );
 
 export const MuiLable = ({ value, ...props }: Field.Value & TypographyProps) => (
-    <Typography {...props}>
+    <Typography {...props} sx={{ textAlign: "initial" }}>
         {value}
     </Typography>
 );
@@ -34,7 +35,7 @@ export const MuiPasswordField = ({ ...props }: TextFieldProps) => {
         <TextField
             {...fieldToTextField(props)}
             sx={{
-
+                marginBottom: "15px",
                 "& input::-ms-reveal, & input::-ms-clear": {
                     display: "none"
                 }

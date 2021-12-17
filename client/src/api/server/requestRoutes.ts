@@ -5,7 +5,7 @@ export const Routes: {
 } = {
   userList: { method: 'get', url: 'user/users' },
   userLogin: { method: 'post', url: 'user/login' },
-  newUser: { method: 'post', url: 'user/addUsers' },
+  newUser: { method: 'post', url: 'user/adduser' },
   refresh: { method: 'get', url: 'user/refresh' },
   messages: { method: 'get', url: 'message/messages' },
   initConversation: { method: 'post', url: 'message/conversation' },

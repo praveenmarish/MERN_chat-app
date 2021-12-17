@@ -10,8 +10,12 @@ const { TokenVerification } = require('../utils/tokenVerification');
 exports.addUser = async (req, res, next) => {
   const { username, password } = req.body;
   try {
-    await create_User(username, password);
-    res.status(200).json({ success: true, message: 'user added' });
+    const user = await create_User(username, password);
+    const accessToken = user.getSignedJwtToken();
+    const refreshToken = user.getSignedJwtRefreshToken();
+    res
+      .status(200)
+      .json({ sucess: true, accessToken, refreshToken, message: 'user added' });
   } catch (err) {
     next(err);
   }

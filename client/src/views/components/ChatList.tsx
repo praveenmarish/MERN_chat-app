@@ -1,12 +1,17 @@
 // material-ui
 import { Container, IconButton, Input, InputAdornment } from '@mui/material';
 
+import { Request } from 'api/server/main';
+import { useQuery } from 'react-query';
+
 // ================================|| USERS ||================================ //
 
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import TelegramIcon from '@mui/icons-material/Telegram';
+import Messages from './Messages';
+import { useState } from 'react';
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -16,7 +21,19 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.primary,
 }));
 
-const ChatList = () => {
+const ChatList = ({ receiverId }: main.Props) => {
+    const [conversationId, setconversationId] = useState("")
+
+    const { data, isLoading } = useQuery(["conversation", receiverId], async () => {
+        const data = await Request("initConversation", { "id": [receiverId] });
+        console.log(data)
+        return data.data.messages
+    })
+
+    const conversationIds = "kahfind"
+    const pageCount = 4
+
+    console.log(receiverId)
 
     const messages = [{ "type": "sender", "message": "hi" }, { "type": "receiver", "message": "hi" }, { "type": "sender", "message": "hi" }, { "type": "receiver", "message": "hi" }, { "type": "sender", "message": "hi" }, { "type": "receiver", "message": "hi" }, { "type": "sender", "message": "hi" }, { "type": "receiver", "message": "hi" }, { "type": "sender", "message": "hi" }, { "type": "receiver", "message": "hi" }, { "type": "sender", "message": "hi" }, { "type": "receiver", "message": "hi" }]
 
@@ -27,13 +44,7 @@ const ChatList = () => {
                     display: "none",
                 },
             }}>
-                <Stack spacing={2} sx={{ marginBottom: "2%" }}>
-                    {messages.map((data, index) => (
-                        <Item key={index} sx={{ marginLeft: data.type === "sender" ? "auto !important" : "inherit" }}>
-                            {data.message}
-                        </Item>
-                    ))}
-                </Stack>
+                <Messages messages={messages} conversationId={conversationIds} pageCount={pageCount} />
                 <Container sx={{ position: "sticky", bottom: "0px" }}>
                     <Input
                         fullWidth
@@ -54,3 +65,13 @@ const ChatList = () => {
 };
 
 export default ChatList;
+
+export declare namespace main {
+    export interface Props {
+        receiverId: string
+    }
+    export interface users {
+        username: string;
+        _id: string
+    }
+}
