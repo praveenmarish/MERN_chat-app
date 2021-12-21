@@ -37,11 +37,15 @@ exports.messageList = async (req, res, next) => {
 };
 
 exports.addMessage = async (req, res, next) => {
-  const { conversationId, message, senderId } = req.body;
+  const { conversationId, message } = req.body;
+  const { _id } = req.user;
+  const senderId = _id.toHexString();
+
   try {
     let result = await AddMessage(conversationId, message, senderId);
     res.status(200).json({ success: true, message: 'add', result });
   } catch (err) {
+    _id.toHexString();
     next(err);
   }
 };

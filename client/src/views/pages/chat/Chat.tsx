@@ -1,8 +1,6 @@
 // material-ui
 import { Container, Grid } from '@mui/material';
-import { Request } from 'api/server/main';
 import { useState } from 'react';
-import { useQuery } from 'react-query';
 
 // components 
 import CardList from 'views/components/CardList';

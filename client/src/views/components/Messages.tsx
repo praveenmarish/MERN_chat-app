@@ -10,11 +10,13 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.primary,
 }));
 
-const Messages = ({ messages, conversationId, pageCount }: main.Props) => {
+const Messages = ({ messages, conversationId, pageCount, receiverId }: main.Props) => {
+
+    console.log(conversationId, messages, pageCount, receiverId)
     return (
-        <Stack spacing={2} sx={{ marginBottom: "2%" }}>
-            {messages.map((data, index) => (
-                <Item key={index} sx={{ marginLeft: data.type === "sender" ? "auto !important" : "inherit" }}>
+        <Stack spacing={2} sx={{ marginBottom: "2%", minHeight: "100%", display: "flex", flexDirection: "column-reverse" }}>
+            {messages?.map((data, index) => (
+                <Item key={index} sx={{ marginLeft: data.senderId === receiverId ? "inherit" : "auto !important" }}>
                     {data.message}
                 </Item>
             ))}
@@ -26,12 +28,13 @@ export default Messages
 
 export declare namespace main {
     export interface MsgFormat {
-        type: string;
+        senderId: string
         message: string;
     }
     export interface Props {
         messages: MsgFormat[];
         conversationId: string;
-        pageCount: number
+        pageCount: number;
+        receiverId: string;
     }
 }
