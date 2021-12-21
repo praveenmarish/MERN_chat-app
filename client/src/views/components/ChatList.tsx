@@ -9,6 +9,7 @@ import { useRef, useLayoutEffect } from "react";
 
 import Messages from './Messages';
 import SendInput from './SendInput';
+import { joinConversation } from 'api/server/socket';
 
 const ChatList = ({ receiverId }: main.Props) => {
 
@@ -23,6 +24,7 @@ const ChatList = ({ receiverId }: main.Props) => {
     const { data, isLoading } = useQuery(["conversation", receiverId], async () => {
         const data = await Request("initConversation", { "id": [receiverId] });
         console.log(data)
+        joinConversation(data.data.ConversationId)
         return data.data
     })
 
@@ -34,10 +36,10 @@ const ChatList = ({ receiverId }: main.Props) => {
                 },
             }}>
                 {isLoading ? <></> :
-                    <Messages messages={data.messages} conversationId={data.ConversationId} pageCount={data.pageCount} receiverId={receiverId} />}
+                    <Messages messages={data?.messages} conversationId={data?.ConversationId} pageCount={data?.pageCount} receiverId={receiverId} />}
                 {isLoading ? <></> :
                     <Container sx={{ position: "sticky", top: "auto", bottom: 0 }}>
-                        <SendInput conversationId={data.ConversationId} />
+                        <SendInput conversationId={data?.ConversationId} />
                     </Container>}
             </Container>
         </Container >

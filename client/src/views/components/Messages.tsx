@@ -1,6 +1,8 @@
 // material-ui
 import { Stack, Paper } from "@mui/material"
 import { styled } from '@mui/material/styles';
+import { receiveMessages } from "api/server/socket";
+import { useEffect } from "react";
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -11,6 +13,12 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const Messages = ({ messages, conversationId, pageCount, receiverId }: main.Props) => {
+
+    useEffect(() => {
+        receiveMessages((data: string) => { console.log(data) })
+    }, [])
+
+
 
     console.log(conversationId, messages, pageCount, receiverId)
     return (

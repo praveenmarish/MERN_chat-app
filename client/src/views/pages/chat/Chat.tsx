@@ -1,5 +1,6 @@
 // material-ui
 import { Container, Grid } from '@mui/material';
+import { socketConnection } from 'api/server/socket';
 import { useState } from 'react';
 
 // components 
@@ -7,11 +8,13 @@ import CardList from 'views/components/CardList';
 import ChatList from 'views/components/ChatList';
 import TopCard from 'views/components/TopCard';
 
+
 // ================================|| USERS ||================================ //
 
 const Chat = () => {
 
     const [currentReceiver, setcurrentReceiver] = useState("")
+    socketConnection()
 
     return (
         <Container sx={{ backgroundColor: "white", height: "80vh", width: "90vw", position: "relative", top: "15%" }}>

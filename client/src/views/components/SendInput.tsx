@@ -3,6 +3,7 @@ import TelegramIcon from '@mui/icons-material/Telegram';
 import { SetStateAction, useState } from 'react';
 import { useMutation } from 'react-query';
 import { Request } from 'api/server/main';
+import { joinConversation, sendMsg } from 'api/server/socket';
 
 const SendInput = ({ conversationId }: Sender.Props) => {
     const [SendMessageText, setSendMessageText] = useState("")
@@ -25,9 +26,11 @@ const SendInput = ({ conversationId }: Sender.Props) => {
         setSendMessageText(e.target.value);
     };
 
+
     const handleSubmit = () => {
         console.log(SendMessageText)
-        send({ conversationId: conversationId, message: SendMessageText })
+        sendMsg({ message: SendMessageText, conversationId: conversationId })
+        //send({ conversationId: conversationId, message: SendMessageText })
     }
 
     return (

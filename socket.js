@@ -1,16 +1,18 @@
 const socketIo = require('socket.io');
 
 const socketServer = (server) => {
-  const io = socketIo(server);
+  const io = socketIo(server, {
+    cors: { origin: process.env.FRONTEND, methods: ['GET', 'POST'] },
+  });
   console.log('socket1');
-  io.on('connection', (socket) => {
-    console.log('socket');
-    socket.on('online', async (data) => {
-      io.emit('hdiif');
+  io.on('connection', (client) => {
+    client.on('conversation', (conversationId) => {
+      console.log('joined', conversationId);
+      client.join(conversationId);
     });
-    socket.on('disconnect', () => {
-      console.log('disconnected!');
-      io.emit('disconnect');
+    client.on('message', (msg) => {
+      console.log('msg send', msg);
+      io.in(msg.conversationId).emit('message-received', msg.message);
     });
   });
 };
