@@ -33,6 +33,23 @@ const Messages = ({ conversationId, pageCount, receiverId }: main.Props) => {
         return data.data.messages
     })
 
+    //setMessage((prevlist) => [...prevlist, data])
+
+    // const scrollEvent = () => {
+    //     console.log("scroll")
+    // }
+
+    useEffect(() => {
+        const Html = document.getElementById("messages")
+        if (Html !== null) {
+            if (data !== undefined) {
+                Html.scrollTop = Html.scrollHeight
+            }
+            //Html.onscroll = scrollEvent
+        }
+    }, [data])
+
+
     console.log(conversationId, pageCount, receiverId)
     return (
         <Stack spacing={2} sx={{ marginBottom: "2%", minHeight: "100%", display: "flex", flexDirection: "column-reverse" }}>

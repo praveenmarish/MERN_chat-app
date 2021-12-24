@@ -30,7 +30,7 @@ const ChatList = ({ receiverId }: main.Props) => {
 
     return (
         <Container sx={{ backgroundColor: (theme) => theme.palette.secondary.main, height: "100%", width: "100%", borderRadius: "10px", border: "1px solid #000", display: "flex", justifyContent: "center", alignContent: "center", flexDirection: "column" }}>
-            <Container ref={chat} sx={{
+            <Container ref={chat} id="messages" sx={{
                 backgroundColor: "white", height: "90%", width: "100%", borderRadius: "10px", overflow: "auto", padding: "10px !important", "&::-webkit-scrollbar": {
                     display: "none",
                 },
