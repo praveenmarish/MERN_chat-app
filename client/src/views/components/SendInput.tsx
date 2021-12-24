@@ -1,12 +1,13 @@
 import { IconButton, Input, InputAdornment } from '@mui/material';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import { SetStateAction, useState } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { Request } from 'api/server/main';
-import { joinConversation, sendMsg } from 'api/server/socket';
+import { sendMsg } from 'api/server/socket';
 
 const SendInput = ({ conversationId }: Sender.Props) => {
     const [SendMessageText, setSendMessageText] = useState("")
+    const client = useQueryClient()
 
     const { mutate: send } = useMutation(async (values: Sender.Msg) => {
         const res = await Request("sendMessage", values)
@@ -15,6 +16,7 @@ const SendInput = ({ conversationId }: Sender.Props) => {
         {
             onSuccess: async (data) => {
                 setSendMessageText("")
+                client.invalidateQueries(["message", conversationId])
             },
             onError: (err) => {
                 console.log((err as any).response.data.error)
@@ -30,7 +32,7 @@ const SendInput = ({ conversationId }: Sender.Props) => {
     const handleSubmit = () => {
         console.log(SendMessageText)
         sendMsg({ message: SendMessageText, conversationId: conversationId })
-        //send({ conversationId: conversationId, message: SendMessageText })
+        send({ conversationId: conversationId, message: SendMessageText })
     }
 
     return (

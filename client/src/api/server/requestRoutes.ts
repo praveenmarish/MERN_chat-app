@@ -7,7 +7,7 @@ export const Routes: {
   userLogin: { method: 'post', url: 'user/login' },
   newUser: { method: 'post', url: 'user/adduser' },
   refresh: { method: 'get', url: 'user/refresh' },
-  messages: { method: 'get', url: 'message/messages' },
+  messages: { method: 'post', url: 'message/messages' },
   initConversation: { method: 'post', url: 'message/conversation' },
   sendMessage: { method: 'post', url: 'message/addmessage' },
 };

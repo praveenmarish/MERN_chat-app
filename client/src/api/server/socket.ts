@@ -25,13 +25,12 @@ export const sendMsg = (message: {
   message: string;
   conversationId: string;
 }) => {
-  console.log('joined to conversation');
+  console.log('message send');
   socket?.emit('message', message);
 };
 
 export const receiveMessages = (callback: (receivedMsg: string) => void) => {
   socket?.on('message-received', (receivedMessages) => {
-    console.log(receiveMessages);
     callback(receivedMessages);
   });
 };

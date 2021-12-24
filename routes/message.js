@@ -8,7 +8,7 @@ const {
 const { protect } = require('../middleware/auth');
 
 messageRoute.route('/conversation').post(protect, conversation);
-messageRoute.route('/messages').get(protect, messageList);
+messageRoute.route('/messages').post(protect, messageList);
 messageRoute.route('/addmessage').post(protect, addMessage);
 
 module.exports = messageRoute;

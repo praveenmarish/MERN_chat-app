@@ -36,7 +36,7 @@ const ChatList = ({ receiverId }: main.Props) => {
                 },
             }}>
                 {isLoading ? <></> :
-                    <Messages messages={data?.messages} conversationId={data?.ConversationId} pageCount={data?.pageCount} receiverId={receiverId} />}
+                    <Messages conversationId={data?.ConversationId} pageCount={data?.pageCount} receiverId={receiverId} />}
                 {isLoading ? <></> :
                     <Container sx={{ position: "sticky", top: "auto", bottom: 0 }}>
                         <SendInput conversationId={data?.ConversationId} />

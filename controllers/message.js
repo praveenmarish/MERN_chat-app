@@ -13,12 +13,10 @@ exports.conversation = async (req, res, next) => {
     let { ConversationId, pageCount } = await conversationId(
       id.concat(_id.toHexString())
     );
-    let messages = await MessageList(ConversationId, 1);
     res.status(200).json({
       success: true,
       message: 'conversation',
       ConversationId,
-      messages,
       pageCount,
     });
   } catch (err) {
