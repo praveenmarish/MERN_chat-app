@@ -1,12 +1,13 @@
 // material-ui
 import { Container, Typography } from '@mui/material';
-import { Form, Formik } from 'formik';
+import { Form, Formik, FormikHelpers } from 'formik';
 import { FormField, MuiButton, MuiLable } from './FormComponents';
 import * as Yup from 'yup'
 import { Request } from 'api/server/main';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
+import { useErrorHandler } from 'react-error-boundary'
 
 // ================================|| USERS ||================================ //
 
@@ -24,6 +25,7 @@ const LoginValidation = Yup.object().shape({
 const LoginForm = () => {
     const [error, seterror] = useState('')
 
+    const handleError = useErrorHandler()
     const navigate = useNavigate()
 
     const { mutate: login } = useMutation(async (values: main.Form) => {
@@ -37,15 +39,21 @@ const LoginForm = () => {
                 navigate('./chat')
             },
             onError: (err) => {
-                seterror((err as any).response.data.error)
+                if ((err as any).response) {
+                    seterror((err as any).response.data.error)
+                } else {
+                    handleError(Error(err as any))
+                }
             },
         }
     );
 
     const onSubmit = (
         values: main.Form,
+        formikHelpers: FormikHelpers<main.Form>
     ) => {
         login(values)
+        formikHelpers.setSubmitting(false)
     }
 
     return (

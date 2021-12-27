@@ -9,6 +9,7 @@ import { styled } from '@mui/material/styles';
 import { Request } from 'api/server/main';
 import { Dispatch, SetStateAction } from 'react';
 import { useQuery } from 'react-query';
+import { useErrorHandler } from 'react-error-boundary'
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -19,9 +20,15 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const CardList = ({ receiver }: main.Props) => {
 
+    const handleError = useErrorHandler()
+
     const { data, isLoading } = useQuery("users", async () => {
         const data = await Request("userList", {});
         return data.data.users
+    }, {
+        onError: (err) => {
+            handleError(Error((err as any).response.data.error))
+        }
     })
 
     return (

@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { useErrorHandler } from 'react-error-boundary'
 
 // ================================|| USERS ||================================ //
 
@@ -28,6 +29,7 @@ const RegisterValidation = Yup.object().shape({
 const RegisterationForm = () => {
     const [error, seterror] = useState('')
 
+    const handleError = useErrorHandler()
     const navigate = useNavigate()
 
     const { mutate: register } = useMutation(async (values: main.Form) => {
@@ -41,7 +43,11 @@ const RegisterationForm = () => {
                 navigate('../chat')
             },
             onError: (err) => {
-                seterror((err as any).response.data.error)
+                if ((err as any).response) {
+                    seterror((err as any).response.data.error)
+                } else {
+                    handleError(Error(err as any))
+                }
             },
         }
     );
