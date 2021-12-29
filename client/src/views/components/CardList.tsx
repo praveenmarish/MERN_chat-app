@@ -27,7 +27,11 @@ const CardList = ({ receiver }: main.Props) => {
         return data.data.users
     }, {
         onError: (err) => {
-            handleError(Error((err as any).response.data.error))
+            if ((err as any).response) {
+                handleError(Error((err as any).response.data.error))
+            } else {
+                handleError(Error(err as any))
+            }
         }
     })
 

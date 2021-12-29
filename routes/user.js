@@ -11,6 +11,6 @@ const { protect } = require('../middleware/auth');
 userRoute.route('/addUser').post(addUser);
 userRoute.route('/login').post(login);
 userRoute.route('/users').get(protect, users);
-userRoute.route('/refresh').get(getNewAccessToken);
+userRoute.route('/refresh').post(getNewAccessToken);
 
 module.exports = userRoute;

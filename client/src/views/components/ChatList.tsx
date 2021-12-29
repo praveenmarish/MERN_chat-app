@@ -4,6 +4,7 @@ import { Container } from '@mui/material';
 import { Request } from 'api/server/main';
 import { useQuery } from 'react-query';
 import { useRef, useLayoutEffect } from "react";
+import { useErrorHandler } from 'react-error-boundary'
 
 // ================================|| USERS ||================================ //
 
@@ -14,6 +15,7 @@ import { joinConversation } from 'api/server/socket';
 const ChatList = ({ receiverId }: main.Props) => {
 
     const chat = useRef<null | HTMLDivElement>(null);
+    const handleError = useErrorHandler()
 
     useLayoutEffect(() => {
         if (chat.current !== null) {
@@ -26,6 +28,14 @@ const ChatList = ({ receiverId }: main.Props) => {
         console.log(data)
         joinConversation(data.data.ConversationId)
         return data.data
+    }, {
+        onError: (err) => {
+            if ((err as any).response) {
+                handleError(Error((err as any).response.data.error))
+            } else {
+                handleError(Error(err as any))
+            }
+        }
     })
 
     return (
