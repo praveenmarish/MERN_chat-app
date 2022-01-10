@@ -8,7 +8,7 @@ import Routes from 'routes';
 
 // defaultTheme
 import themes from 'themes';
-import ErrorComponent from 'components/ErrorComponent';
+import ErrorComponent, { onErrorFn } from 'components/ErrorComponent';
 
 // ==============================|| APP ||============================== //
 
@@ -18,7 +18,7 @@ const App = () => {
     <Provider>
       <ThemeProvider theme={themes()}>
         <BrowserRouter>
-          <ErrorBoundary FallbackComponent={ErrorComponent}>
+          <ErrorBoundary FallbackComponent={ErrorComponent} onError={onErrorFn}>
             <Routes />
           </ErrorBoundary>
         </BrowserRouter>
